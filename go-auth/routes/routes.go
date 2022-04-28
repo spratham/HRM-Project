@@ -1,7 +1,8 @@
 package routes
 
 import (
-	"../controllers"
+	"routes/controllers"
+
 	"github.com/gofiber/fiber"
 )
 

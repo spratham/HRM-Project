@@ -1,7 +1,6 @@
 package database
 
 import (
-	
 	"../models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
