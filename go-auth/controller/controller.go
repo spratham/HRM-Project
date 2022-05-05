@@ -1,11 +1,12 @@
-package controllers
+package controller
 
 import (
+	"go-auth/database"
 	"strconv"
 	"time"
 
-	"../models"
-	"./database.sql"
+	models "go-auth/model"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"

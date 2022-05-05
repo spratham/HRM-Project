@@ -1,16 +1,16 @@
 package routes
 
 import (
-	"../controllers"
+	"go-auth/controller"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 func Setup(app *fiber.App) {
 
-	app.Post("/api/register", controllers.Register)
-	app.Post("/api/login", controllers.Login)
-	app.Get("/api/user", controllers.User)
-	app.Post("/api/logout", controllers.Logout)
+	app.Post("/register", controller.Register)
+	app.Post("/login", controller.Login)
+	app.Get("/user", controller.User)
+	app.Post("/logout", controller.Logout)
 
 }

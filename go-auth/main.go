@@ -1,9 +1,11 @@
 package main
 
 import (
-	"routes/database"
+	"go-auth/database"
 
-	"../routes"
+	"go-auth/routes"
+
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
