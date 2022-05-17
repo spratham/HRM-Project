@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"go-auth/controller"
+	"github.com/spratham/go-auth/controller"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -12,5 +12,8 @@ func Setup(app *fiber.App) {
 	app.Post("/login", controller.Login)
 	app.Get("/user", controller.User)
 	app.Post("/logout", controller.Logout)
+	app.Post("/logclockactivity", controller.LogClockActivity)
+
+
 
 }

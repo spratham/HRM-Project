@@ -1,9 +1,9 @@
 package main
 
 import (
-	"go-auth/database"
+	"github.com/spratham/go-auth/database"
 
-	"go-auth/routes"
+	"github.com/spratham/go-auth/routes"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"

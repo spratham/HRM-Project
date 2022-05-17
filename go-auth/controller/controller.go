@@ -1,11 +1,13 @@
 package controller
 
 import (
-	"go-auth/database"
+	"errors"
 	"strconv"
 	"time"
 
-	models "go-auth/model"
+	"github.com/spratham/go-auth/database"
+
+	models "github.com/spratham/go-auth/model"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
@@ -121,6 +123,36 @@ func Logout(c *fiber.Ctx) error {
 	c.Cookie(&cookie)
 
 	return c.JSON(fiber.Map{
+		"message": "sucscess",
+	})
+}
+
+func LogClockActivity(c *fiber.Ctx) error {
+	var data map[string]interface{}
+
+	if err := c.BodyParser(&data); err != nil {
+		return err
+	}
+	if _, ok := data["id"]; !ok {
+		return errors.New("ID not found in request")
+	}
+	if _, ok := data["requestType"]; !ok {
+		return errors.New("requestType not found in request")
+	}
+	
+	row := database.GetUserClockActivityById(data["id"].(uint), data["requestType"].(uint))
+	//if (*row)==nil || (*row).Id == 0 || 
+	
+	if (*row).ClockTime .IsZero()   {
+		database.PutClockInActivity(data["id"].(uint), data["requestType"].(uint))
+	} else {
+		return errors.New("Activity already logged for today")
+	}
+	return c.JSON(fiber.Map{
 		"message": "success",
 	})
+}
+
+func PutClockInActivity(u1, u2 uint) {
+	panic("unimplemented")
 }
