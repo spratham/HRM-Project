@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -128,7 +129,8 @@ func Logout(c *fiber.Ctx) error {
 }
 
 func LogClockActivity(c *fiber.Ctx) error {
-	var data map[string]interface{}
+	var data map[string]uint
+	// var data models.ClockActivity
 
 	if err := c.BodyParser(&data); err != nil {
 		return err
@@ -140,11 +142,13 @@ func LogClockActivity(c *fiber.Ctx) error {
 		return errors.New("requestType not found in request")
 	}
 	
-	row := database.GetUserClockActivityById(data["id"].(uint), data["requestType"].(uint))
+	row := database.GetUserClockActivityById(data["id"], data["requestType"])
 	//if (*row)==nil || (*row).Id == 0 || 
-	
-	if (*row).ClockTime .IsZero()   {
-		database.PutClockInActivity(data["id"].(uint), data["requestType"].(uint))
+	fmt.Println("Is row nil? ", row.Id==0)
+	// fmt.Printf("%T %v %T %v\n\n", (*row), (*row), (*row).ClockTime.IsZero(), (*row).ClockTime.IsZero())
+	if row .Id== 0 {
+		fmt.Println("here")
+		database.PutClockInActivity(data["id"], data["requestType"])
 	} else {
 		return errors.New("Activity already logged for today")
 	}

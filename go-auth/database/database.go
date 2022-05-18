@@ -22,10 +22,12 @@ func Connect() {
 
 	connection.AutoMigrate(&model.User{})
 }
-func GetUserClockActivityById(id, clockType uint) (*model.ClockActivity){
-	result :=&model.ClockActivity{}
-DB.Raw (`SELECT * FROM tbl_clock_activity WHERE id = ?` , `clockTime > DATE_FORMAT("yyyy-mm-dd", NOW() )` ,`clockType =? ORDER by clockTime DESC`).Scan(result)
-	panic(fmt.Sprintf("get clockActivity resul %v database %v", result, DB))
+func GetUserClockActivityById(id, clockType uint) (model.ClockActivity){
+	var result model.ClockActivity
+	r := DB.Select("*").Where(fmt.Sprintf("id = %v AND clock_time > DATE_FORMAT(\"yyyy-mm-dd\", NOW() ) AND clock_type = %v", id, clockType)).Limit(10).Find(&result)
+	r.Scan(&result)
+	fmt.Println(r.Attrs())
+	fmt.Printf("get clockActivity resul %v database %v %T %T\n\n\n", result, DB, id, clockType)
 
 return result
 // if query returns nil result => no entry for today, insert clockin row
@@ -35,8 +37,9 @@ return result
 
 func PutClockInActivity(id, clockType uint){
 //	var result *gorm.DB
-result :=&model.ClockActivity{Id:id, ClockType: uint32(clockType)}
-	DB.Raw (`INSERT INTO tbl_clock_activity (id, clockType) values(?,?)`).Scan(result)
+// result :=&model.ClockActivity{Id:id, ClockType: uint32(clockType)}
+	ca := &model.ClockActivity{Id: id, ClockType: uint32(clockType)}
+	DB.Create(ca) //INTO tbl_clock_activity (id, clockType) values(?,?)`, id, clockType)
 	//query := "INSERT INTO tbl_clock_activity (id, clockType) values(?,?)"
 	//row := QueryHelper(query)
 	
